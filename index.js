@@ -1,5 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const bcrypt = require('bycrpt js');
+const cors = require('cors');
+const User = require('./models/User');
+const multer = require('multer');
 
 const dotenv = require("dotenv");
 
@@ -7,6 +11,9 @@ dotenv.config();
 
 const app = express();
 
+// Middleware
+app.use(cors());
+app.use(bodyParser.json()); 
 
 // Connect to MongoDB
 const connectWithRetry = async () => {
@@ -23,6 +30,16 @@ const connectWithRetry = async () => {
 
 connectWithRetry();
 
+// File upload setup using multer
+const storage = multer.diskStorage({destination: (req, file, cb)=>
+    {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname)
+    }
+})
+
 
 // Routes
 app.get("/", (req, res) => {
@@ -35,4 +52,3 @@ const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
