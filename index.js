@@ -1,11 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require('cors');
-const User = require('./models/User');
+const User = require('./models/user');
 const multer = require('multer');
 const bodyParser = require('body-parser');
 const dotenv = require("dotenv");
-const registerRoute = require("./controller/router");
+const userRoute = require("./routes/user");
 
 dotenv.config();
 
@@ -33,22 +33,14 @@ const connectWithRetry = async () => {
 connectWithRetry();
 
 
-const storage = multer.diskStorage({destination: (req, file, cb)=>
-    {
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname)
-    }
-})
-
-
 // Routes
 app.get("/", (req, res) => {
     res.send("Welcome, to Irene's registeration form");
 });
+app.use("/register", userRoute)
+app.use('/uploads', express.static('uploads'))
 
-app.use('/api', registerRoute);
+
 
 
 // Start the server

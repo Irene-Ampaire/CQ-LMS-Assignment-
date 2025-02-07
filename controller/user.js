@@ -1,21 +1,31 @@
+const router = require('express').Router();
+const User = require('../models/user');
+const upload = require('../middleware/middleware');
+
+
 // Controller function to handle registration
-router.post('/register', upload.single('attachment'), 
-async (req, res) => {
+ 
+const createUser = async (req, res) => {
     try {
-        const { name, email, password, mobileNumber, gender, language, termsAccepted } = req.body;
-        const attachment = req.file ? req.file.path : null;
+        const { name, email, password, confirm_password, mobile_number, gender, language, attachment, terms_agreed } = req.body;
+        
 
         // Create a new user
         const newUser = new User({
             name,
             email,
             password,
-            mobileNumber,
+            confirm_password,
+            mobile_number,
             gender,
             language,
             attachment,
-            termsAccepted: termsAccepted === 'on'
+            terms_agreed
         });
+        
+        if(req.file){
+            newUser.attachment = req.file.path;
+        }
 
         // Save the user to the database
         await newUser.save();
@@ -25,6 +35,6 @@ async (req, res) => {
         console.error('Error registering user', error);
         res.status(500).send('Internal Server Error');
     }
-});
+};
 
-module.exports = router;
+module.exports = createUser

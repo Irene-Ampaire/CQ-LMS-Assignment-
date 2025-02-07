@@ -30,19 +30,17 @@ const userSchema = new Schema({
     },
 
     gender: {
-         type: Schema.Types.ObjectId, ref: 'Gender', 
+         type: String,
          required: true 
     },
 
     language: { 
-        type: Schema.Types.ObjectId, 
-        ref: 'Language', 
+        type: String,  
         required: true
      },
 
     attachment: { 
-        type: Schema.Types.ObjectId, 
-        ref: 'Attachment', 
+        type: String, 
         required: true 
     },
 
@@ -54,6 +52,9 @@ const userSchema = new Schema({
 
 
 module.exports = model('User', userSchema)
+
+
+
    
 
 

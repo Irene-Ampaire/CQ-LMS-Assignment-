@@ -16,3 +16,4 @@ I created a models file which contains the schema for the database.
 I created a controllers file that contains all the functions which interact with the database.
 I created a routes file which contains all the routes for the application.
 I Created a middleware file which contains all the middleware functions for the application.
+Upon completion, i tested the project using postman and the user was registered successfully as reflected in the database. the picture is attached. 
